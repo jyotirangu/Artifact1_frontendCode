@@ -298,10 +298,10 @@ export default App;
 
 
 
-// echo "# InfosysSpringBoardProject_Artifact1" >> README.md
+// echo "# Artifact1_frontendCode" >> README.md
 // git init
-// git add .
+// git add README.md
 // git commit -m "first commit"
 // git branch -M main
-// git remote add origin https://github.com/jyotirangu/InfosysSpringBoardProject_Artifact1.git
+// git remote add origin https://github.com/jyotirangu/Artifact1_frontendCode.git
 // git push -u origin main
