@@ -15,24 +15,32 @@ function Login() {
       setErrorMessage('Email, password, and role are required!');
       return;
     }
-  
-    axios
-      .post('http://localhost:5000/login', { email, password, role })
-      .then((response) => {
-        // Store the response data in localStorage
-        localStorage.setItem('user', JSON.stringify(response.data));
-        
 
-        setSuccessMessage('Login successful!');
-        console.log(response.data.user.role)
-        // Navigate to /courses
-        setTimeout(() => {
-          navigate('/courses');  // Navigate to /courses after login
-        }, 2000);
-      })
-      .catch((error) => {
-        setErrorMessage(error.response?.data?.error || 'An error occurred');
-      });
+    axios
+  .post('http://localhost:5000/login', { email, password, role })
+  .then((response) => {
+    // Assumes response.data contains user-related data that you want to store locally.
+    // Store the response data in localStorage
+    localStorage.setItem('user', JSON.stringify(response.data));
+
+    //Ensure the backend returns the token in the response.data object (e.g., response.data.token or response.data.access_token).
+    const token = response.data.token; // Assuming `access_token` is in response.data
+    localStorage.setItem('token', token);
+    console.log(token)
+
+    setSuccessMessage('Login successful!');
+    console.log(response.data.user.role);
+
+    // Navigate to /courses
+    // Provides a delay for showing success messages or animations.
+    setTimeout(() => {
+      navigate(`/courses?token=${token}`); // Use the token from response data
+    }, 2000);
+  })
+  .catch((error) => {
+    setErrorMessage(error.response?.data?.error || 'An error occurred');
+  });
+
   };
 
 
@@ -84,20 +92,4 @@ function Login() {
 
 export default Login;
 
-
-
-
-
-// …or create a new repository on the command line
-// echo "# InfosysSpringboard" >> README.md
-// git init
-// git add README.md
-// git commit -m "first commit"
-// git branch -M main
-// git remote add origin https://github.com/jyotirangu/InfosysSpringboard.git
-// git push -u origin main
-
-// or push an existing repository from the command line
-// git remote add origin https://github.com/jyotirangu/InfosysSpringboard.git
-// git branch -M main
-// git push -u origin ma
+// https://github.com/jyotirangu/Artifact1_frontendCode.git

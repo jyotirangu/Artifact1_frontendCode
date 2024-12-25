@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './course.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 function Addcourses() {
   const [courses, setCourses] = useState([]);
@@ -21,7 +22,31 @@ function Addcourses() {
     created_by: '',
   });
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentUrl = location.search;
+  // To access specific parameters from the URL:
 
+  const urlParams = new URLSearchParams(currentUrl); 
+
+  const parameterValue = urlParams.get('token');
+
+  useEffect(() => {
+    // Compares the token in the query string (parameterValue) with the token in localStorage every second. If tokens don't match, redirects the user to the home page (/).
+
+    const interval = setInterval(() => {
+      console.log("Checking token...");
+      const token = localStorage.getItem('token');
+      // console.log(token:${token} && parameterValue:${parameterValue});
+      if (parameterValue !== token) {
+        navigate('/');
+      }
+    }, 1000); // Check every 1000ms (1 second)
+  
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  },[]);
+
+  // Safely retrieves and parses user data stored in localStorage.
   const data = JSON.parse(localStorage.getItem('user'));
   const userId = data.user.id;
   const userRole = data.user.role;
