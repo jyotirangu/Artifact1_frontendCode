@@ -34,7 +34,7 @@ function Login() {
     // Navigate to /courses
     // Provides a delay for showing success messages or animations.
     setTimeout(() => {
-      navigate(`/courses?token=${token}`); // Use the token from response data
+      navigate(`/homepage?token=${token}`); // Use the token from response data
     }, 2000);
   })
   .catch((error) => {
@@ -47,8 +47,9 @@ function Login() {
   return (
     <div className="formContainer">
       <h1>Login</h1>
-      <p>Select Your Role to Access the Portal</p>
+      <p align="center">Select Your Role to Access the Portal</p>
       <select
+      className="checkrole"
         value={role}
         onChange={(e) => {
           const selectedRole = e.target.value;
@@ -75,14 +76,14 @@ function Login() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <span className="error">{errorMessage}</span>
+      <span className={`error ${errorMessage ? 'show' : ''}`}>{errorMessage}</span>
       <span className="success">{successMessage}</span>
       <div className="buttons">
         <button type="button" onClick={handleLogin}>Login</button>
       </div>
-      <a href="#" onClick={() => navigate('/ForgotPassword')}>Forgot Password?</a>
+      <p align="center"><a href="#" onClick={() => navigate('/ForgotPassword')}>Forgot Password?</a></p>
       <div className="account-message">
-        <p>Don’t have an account? <a href="#" onClick={()=>{
+        <p align="center">Don’t have an account? <a href="#" onClick={()=>{
           navigate('/Signup')
         }}>Create one here</a></p>
       </div>
@@ -91,5 +92,3 @@ function Login() {
 }
 
 export default Login;
-
-// https://github.com/jyotirangu/Artifact1_frontendCode.git

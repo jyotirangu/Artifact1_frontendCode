@@ -3,36 +3,25 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  width:100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  background-color: #adb4ec;
+  overflow-x: hidden;
 }
 
 /* Main container */
 .container {
   display: flex;
-  width: 90%;
+  width: 100vw;
   max-width: 1200px;
   height: 90%;
   background: #ffffff;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-}
-
-/* Left section styles */
-.leftSection {
-  flex: 1;
-  background: #42a5f5; /* A solid blue for contrast */
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  text-align: center;
 }
 
 .leftSection h1 {
@@ -69,9 +58,12 @@ body {
 }
 
 h1 {
+  display: flex;
   font-size: 2.5rem;
-  color: #1976d2;
+  color: #0a476a;
   margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Wrapping form inside a colored rectangle */
@@ -86,8 +78,8 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 select,
-button {
-  width: 100%;
+button{
+  width: 95%;
   padding: 15px;
   margin: 15px 0;
   font-size: 1rem;
@@ -117,13 +109,26 @@ button:hover {
 }
 
 .error {
+  display: none;
   color: #d32f2f;
   font-size: 0.9rem;
+  margin: 10px 0;
+  /* You can also add padding or other styles to make the error box look like a box */
+  padding: 10px;
+  border: 1px solid #d32f2f;
+  border-radius: 5px;
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+.error.show {
+  display: block; 
 }
 
 .success {
+  display: block;
   color: #388e3c;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 /* Adjustments for responsiveness */
@@ -140,3 +145,9 @@ button:hover {
     padding: 20px;
   }
 }
+
+
+
+/* ============================================= */
+
+

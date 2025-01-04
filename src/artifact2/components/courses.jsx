@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './course.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-
+import Navbar from './Navbar';
+import { Link } from 'react-router-dom'; 
 function Addcourses() {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState('');
@@ -20,41 +20,28 @@ function Addcourses() {
     end_date: '',
     duration: '',
     created_by: '',
+    detailed_description: '',
   });
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState('AllCourses'); // Default filter is AllCourses
+
   const navigate = useNavigate();
   const location = useLocation();
   const currentUrl = location.search;
-  // To access specific parameters from the URL:
 
-  const urlParams = new URLSearchParams(currentUrl); 
-
+  const urlParams = new URLSearchParams(currentUrl);
   const parameterValue = urlParams.get('token');
 
-  useEffect(() => {
-    // Compares the token in the query string (parameterValue) with the token in localStorage every second. If tokens don't match, redirects the user to the home page (/).
-
-    const interval = setInterval(() => {
-      console.log("Checking token...");
-      const token = localStorage.getItem('token');
-      // console.log(token:${token} && parameterValue:${parameterValue});
-      if (parameterValue !== token) {
-        navigate('/');
-      }
-    }, 1000); // Check every 1000ms (1 second)
-  
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  },[]);
-
-  // Safely retrieves and parses user data stored in localStorage.
   const data = JSON.parse(localStorage.getItem('user'));
   const userId = data.user.id;
   const userRole = data.user.role;
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/courses')
+      .get(`http://localhost:5000/courses/${userId}`)
       .then((response) => {
+        console.log(response.data)
         setCourses(response.data.courses);
       })
       .catch((error) => {
@@ -71,7 +58,7 @@ function Addcourses() {
           setError(error.response?.data?.error || 'An error occurred while fetching instructors');
         });
     }
-  }, [userRole]);
+  }, [userRole, userId]);
 
   useEffect(() => {
     if (userId) {
@@ -114,14 +101,12 @@ function Addcourses() {
       ? `http://localhost:5000/editCourse/${courseData.id}`
       : 'http://localhost:5000/addCourse';
 
-    axios[method](url, courseData)
+    axios[method](url, isEditMode ? { courseData, userId } : courseData)
       .then((response) => {
-        alert(
-          `${isEditMode ? 'Course updated' : 'Course added'} successfully!\nEmail has been sent successfully`
-        );
+        alert(`${isEditMode ? 'Course updated' : 'Course added'} successfully!`);
         setShowPopup(false);
         setCourseData({
-          id : '',
+          id: '',
           course_id: '',
           title: '',
           description: '',
@@ -132,7 +117,7 @@ function Addcourses() {
           created_by: userId,
         });
         setIsEditMode(false);
-        window.location.reload()
+        window.location.reload();
 
         if (isEditMode) {
           setCourses((prevCourses) =>
@@ -165,42 +150,43 @@ function Addcourses() {
     setShowPopup(true);
   };
 
-  const handleDelete = (courseId) => {
-    if (window.confirm('Are you sure you want to delete this course?')) {
-      axios
-        .delete(`http://localhost:5000/deleteCourse/${courseId}`)
-        .then(() => {
-          setCourses((prevCourses) =>
-            prevCourses.filter((course) => course.course_id !== courseId)
-          );
-          alert('Course deleted successfully!');
+  const handleEnroll = (courseId) => {
+    axios
+      .post('http://localhost:5000/enroll', {
+        user_id: userId,
+        course_id: courseId,
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          alert('You have successfully enrolled in the course!');
           window.location.reload();
-        })
-        .catch((error) => {
-          setError(error.response?.data?.error || 'An error occurred while deleting the course');
-        });
-    }
+        }
+      })
+      .catch((error) => {
+        console.error('Enrollment failed:', error);
+        alert(error.response?.data?.error || 'There was an error enrolling in the course.');
+      });
   };
 
+  const filteredCourses = courses.filter((course) => {
+    // Filter by title search query
+    const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase());
+  
+    // Filter based on selected filter option
+    const matchesFilter =
+      filter === 'AllCourses' ||
+      (filter === 'EnrolledCourses' && course.is_enrolled) ||
+      (filter === 'CompletedCourses' && course.enrollment_status=="Completed");
+  
+    return matchesSearch && matchesFilter;
+  });
+  
+  
   return (
     <div className="dashboard">
-      <div className="sidebar">
-        <h2>Welcome {data.user.name.toUpperCase()} !</h2>
-        <ul>
-          <li>Home</li>
-          <li>Courses</li>
-          <li>Profile</li>
-          <li>Settings</li>
-          <button
-            onClick={() => {
-              navigate('/');
-            }}
-          >
-            Logout
-          </button>
-        </ul>
-      </div>
-      <div className="main-content">
+      <Navbar />
+      <div >     
+     <div className="main-content">
         <div className="dashboard-header">
           <h1 className="dashboard-title">Course Management Dashboard</h1>
           <div className="upskill-line">
@@ -212,6 +198,28 @@ function Addcourses() {
             </button>
           )}
         </div>
+
+        <div className="search-filter">
+          <input
+            type="text"
+            placeholder="Search by Course Title"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+          {userRole === "Employee" && (
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="AllCourses">All Courses</option>
+              <option value="EnrolledCourses">Enrolled Courses</option>
+              <option value="CompletedCourses">Completed Courses</option>
+            </select>
+          )}
+        </div>
+
 
         {showPopup && (
           <div className="popup-overlay">
@@ -242,6 +250,13 @@ function Addcourses() {
                   name="description"
                   placeholder="Course Description"
                   value={courseData.description}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
+                <textarea
+                  name="detailed_description"
+                  placeholder="Detailed Description"
+                  value={courseData.detailed_description}
                   onChange={handleInputChange}
                   className="form-input"
                 />
@@ -291,11 +306,7 @@ function Addcourses() {
                   className="form-input"
                   placeholder="Duration (calculated)"
                 />
-                <button
-                  type="button"
-                  className="submit-btn"
-                  onClick={handleAddOrEditCourse}
-                >
+                <button type="button" className="submit-btn" onClick={handleAddOrEditCourse}>
                   Submit
                 </button>
               </form>
@@ -304,59 +315,56 @@ function Addcourses() {
           </div>
         )}
 
-        <div className="courses-container">
-          <h2 className="courses-title">Courses List</h2>
-          <div className="courses-list">
-            {courses.length === 0 ? (
-              <p>No courses available</p>
-            ) : (
-              courses.map((course) => (
-                <div key={course.course_id} className="course-card">
-                  
+            <div className="right_content_div">
+           
+              <div className="courses-container">
+                <h2 className="courses-title">Courses List</h2>
+                <div className="courses-list">
+                  {filteredCourses.length === 0 ? (
+                    <p>No courses available</p>
+                  ) : (
+                    filteredCourses.map((course) => (
+                      <div key={course.course_id} className="course-card">
+                        {(data.user.role === 'HR' || data.user.role === 'Instructor') && (
+                          <div className="icon">
+                            <i
+                              className="fa-regular fa-pen-to-square"
+                              onClick={() => handleEdit(course)}
+                            ></i>
+                          </div>
+                        )}
+                        <h3>{course.title}</h3>
+                        <p><strong>Course ID:</strong> {course.course_id}</p>
+                        <p><strong>Instructor:</strong> {course.instructor}</p>
+                        <p><strong>Duration:</strong> {course.duration} days</p>
+                        <p><strong>Created Date:</strong> {new Date(course.created_at).toLocaleDateString()}</p>
+                        <p><strong>enrollment_status :</strong> {course.enrollment_status}</p>
 
-                  {(data.user.role == "HR" || data.user.role == "Instructor") ?
-                    (<div className="icon">
+                        {/* <button className="view-course-btn">View Course</button> */}
 
-                    <i
-                      className="fa-regular fa-pen-to-square"
-                      onClick={() => handleEdit(course)}
-                    ></i>
-                    <i
-                      className="fa-solid fa-trash"
-                      onClick={() => handleDelete(course.id)}
-                    ></i>
-                  </div>): <div></div>
+                        <div>
+                          <button className="view-course-btn" onClick={()=>{
+                            navigate(`/ViewCourse?id=${course.id}`)
+                          }}>View Course</button>
+                        </div>
 
-                  }
-                  <h3>{course.title}</h3>
-
-                  <p>
-                    <strong>Course ID:</strong> {course.course_id}
-                  </p>
-                  <p>
-                    <strong>Instructor:</strong> {course.instructor}
-                  </p>
-                  <p>
-                    <strong>Description:</strong> {course.description}
-                  </p>
-                  <p>
-                    <strong>Start Date:</strong> {course.start_date}
-                  </p>
-                  <p>
-                    <strong>End Date:</strong> {course.end_date}
-                  </p>
-                  <p>
-                    <strong>Duration:</strong> {course.duration} days
-                  </p>
-                  <p>
-                    <strong>Created By:</strong> {course.created_by.name}
-                  </p>
+                        {userRole === 'Employee' && (
+                          <button
+                            className="enroll-btn"
+                            onClick={() => handleEnroll(course.id)}
+                            disabled={course.is_enrolled}
+                          >
+                            {(course.is_enrolled ? 'Enrolled' : 'Enroll')}
+                          </button>
+                        )}
+                      </div>                     
+                    ))
+                  )}
                 </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
+              </div>              
+            </div>
+        </div>        
+      </div>     
     </div>
   );
 }

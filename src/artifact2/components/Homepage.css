@@ -1,0 +1,117 @@
+
+/* Overall container layout */
+.containerD {
+
+  display: flex;
+  width: 100vw;
+  height: 100vh; /* Full viewport height */
+  margin: 0;
+ /* Remove any default margin */
+}
+
+/* Left side (Navbar) */
+.left-side {
+  width: 17%; /* Set to cover 50% of the screen (adjust as needed) */
+  background-color: #2c3e50;
+  color: white;
+  padding-top: 20px;
+  position: absolute; /* Ensure it is positioned relative to the viewport */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  left: 0; /* Align it to the left edge of the screen */
+  top: 0; /* Align it to the top edge */
+  height: 100vh; /* Ensure it takes full height of the viewport */
+}
+
+
+/* Navbar styling */
+.header .logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.navbar {
+  list-style: none;
+  padding: 0;
+}
+
+.navbar a {
+  color: black;
+  padding: 15px;
+  display: block;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.navbar a:hover {
+  background-color: #34495e;
+  border-radius: 3px;
+}
+
+.navbar a:active {
+  background-color: #16a085;
+  border-radius: 5px;
+}
+
+/* Right side (Homepage Interface) */
+.right-side {
+  /* background-image:url('./src/assets/bg.png');
+  background-size: cover; */
+  /* width: 100vw; Set to cover 70% of the screen */
+  /* background-color: #ecf0f1; */
+  padding: 20px;
+  
+
+  
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
+  
+  font-size:30px;
+
+
+}
+/* homepage image wala ka background color */
+.dataD{
+  background-color: #BFD5E2;
+  margin-left: 20%;
+  display:flex;
+  justify-content: space-around;
+  align-items: center;
+  width:100vw;
+  height: 100vh;
+  
+}
+
+.image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.namebro{
+  font-family:'Pop';
+  /* font-style: italic; */
+}
+/* Homepage content styling */
+.homepage-content h1 {
+  /* font-family:sans-serif; */
+  margin-top: -8px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  font-style:inherit;
+  color: #0d0e0e;
+  margin-top: 10px;
+}
+
