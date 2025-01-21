@@ -1,0 +1,162 @@
+/* CourseModulesPage.css */
+
+.course-modules-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #96c3de;
+  width:1320px;
+  margin-left: 450px;
+}
+
+.course-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.overall-progress-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.progress-bar-container {
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  height: 20px;
+  width: 80%;
+  margin: 10px auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  background-color: #4caf50;
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.modules-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.module-card {
+  background: #BFD5E2;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 48%;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.module-card:hover {
+  transform: scale(1.02);
+}
+
+.module-card-content {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.module-image {
+  width: 130px;
+  height: 100px;
+  border-radius: 10px;
+  margin-right: 15px;
+}
+
+.module-info {
+  flex-grow: 1;
+}
+
+.module-title {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.module-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.module-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.step-circle.completed {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.step-title {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  margin-top: 5px;
+} 
+
+
+
+/* PROGRESSBAR CSS============================================================================================ */
+/* Added CSS */
+
+.overall-progress-container p {
+  font-size: 16px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.progress-bar-container .progress-bar {
+  border-radius: 20px;
+}
+
+.no-modules-message {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}
+
+.module-progress span {
+  font-size: 14px;
+  color: #333;
+}
+
+.module-card-content:hover .module-title {
+  text-decoration: underline;
+}
+
+.back-buttonCMP {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color:#125982;
+  border:black;
+  font-size: 20px;
+  cursor: pointer;
+  WIDTH: 200px;
+  margin-left: 550px;
+}
+

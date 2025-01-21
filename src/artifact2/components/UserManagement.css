@@ -1,17 +1,42 @@
   .user-management-container {
-    background-image: url('./src/assets/bgmu.png');
-    background-size:contain;
+    /* background-image: url('./src/assets/bgmu.png'); */
+    width: 900px;
+    /* background-size:contain; */
     background-position: right;
-    min-height: 100vh;
-    display:contents;
+    /* min-height: 100vh; */
+    /* display:contents; */
     justify-content: center;
     align-items: center;
+
+  }
+
+  .user-management-content{
+    margin-top: 10%;
+    padding-top: 0px;
+    margin-right: 25px;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; */
+  }
+
+  .user-management-content h2 {
+    font-size: 2em;
+    color: #052f47;
+    margin-left: 60%;
+    margin-top: 15%;
+  }
+
+  .user-management-content img{
+    margin-left: 30%;
+    width:100%;
   }
   
   .user-table {
     width: 100%;
     border-collapse: collapse;
-    
+    margin-left: 30%;
   }
   
   .user-table th, .user-table td {
@@ -21,7 +46,7 @@
   }
   
   .user-table th {
-    background-color: #f4f4f4;
+    background-color: #779dd6;
   }
   
   button {

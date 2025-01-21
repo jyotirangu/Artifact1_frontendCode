@@ -1,0 +1,96 @@
+/* Wrapper for page content */
+.progress-page-contentEPP {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+/* Back button styling */
+.back-buttonEPP {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: #3e95cd;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.back-buttonEPP:hover {
+  color: #1c6cb7;
+}
+
+/* White rectangle box styling */
+.progress-boxEPP {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+/* Overall progress styling */
+.overall-progressEPP {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Chart row styling */
+.chart-rowEPP {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.pie-chartEPP, .line-chartEPP {
+  flex: 1;
+}
+
+/* Employee progress table styling */
+.employee-progress-tableEPP {
+  margin-top: 20px;
+}
+
+.employee-progress-tableEPP h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.employee-progress-tableEPP table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.employee-progress-tableEPP th,
+.employee-progress-tableEPP td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.employee-progress-tableEPP th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+.employee-progress-tableEPP tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Chart section titles */
+.chart-sectionEPP h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}

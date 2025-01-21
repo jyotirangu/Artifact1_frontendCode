@@ -10,6 +10,10 @@ import NavBar from './artifact2/components/Navbar';
 import ViewCourseData from "./artifact2/components/ViewCourse";
 import AuditTrail from "./artifact2/components/AuditTrail";
 import UserManagement from './artifact2/components/UserManagement';
+import AddCoursePage from './artifact2/components/AddCoursePage';
+import CourseModulePage from './artifact2/components/CourseModulesPage'
+import DetailedModulePage from './artifact2/components/DetailedModulePage';
+import EmployeeProgressPage from './artifact2/components/EmployeeProgressPage';
 
 
 function App() {
@@ -34,6 +38,12 @@ function App() {
       <Route path="/ViewCourse" element={<ViewCourseData />} />
       <Route path="/AuditTrail" element={<AuditTrail />} />
       <Route path="/UserManagement" element={<UserManagement />} />
+      <Route path="/AddCoursePage" element={<AddCoursePage />} />
+      <Route path="/CourseModulesPage" element={<CourseModulePage />} />
+      <Route path="/DetailedModulePage" element={<DetailedModulePage />} />
+      {/* <Route path="/module/:moduleId/details" element={<DetailedModulePage />} /> */}
+      {/* <Route path="/EmployeeProgressPage" element={<EmployeeProgressPage />} /> */}
+      <Route path="/employee-progress" element={<EmployeeProgressPage />} />
       </Routes>
     </Router>
   );

@@ -17,15 +17,15 @@ const Homepage = () => {
       <div className="dataD">
         
           <div className="right-side">
-          <div className='namebro'>Welcome <br /> {data.user.name.toUpperCase()} <br /> to </div>
+          <div className='namebro'>Welcome {data.user.name.toUpperCase()} <br /> to </div>
             <div className="homepage-content">
               <h1>Upskill Vision</h1>
-              <p className="tagline">Empower Your Future with Knowledge</p>
+              <div className="tagline">Empower Your Future with Knowledge</div>
             </div>
           </div>
 
-          <div className="image">
-          <img src="./src/assets/bg.png" alt="" srcset="" width={700} />
+          <div className="imageHP">
+          <img src="./src/assets/bg.png" alt="" srcSet="" width={700} />
         </div>
 
       </div>

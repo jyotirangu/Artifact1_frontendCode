@@ -1,8 +1,6 @@
    /* General Styles */
    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #BFD5E2;
+    margin: 0; 
   }
 
   .right_content_div{
@@ -20,6 +18,10 @@
     padding: 10px 20px;
   }
   
+  .popup-titleC{
+    font-size: 25px;
+    text-align: center;
+  }
   .app-title {
     font-size: 24px;
   }
@@ -66,27 +68,34 @@
     font-size: 25px;
   }
   
+/* .dashboard-titleC{
+  font-size: 2em;
+} */
+
   /* Main Content */
   .main-content {
-    margin-left: 220px;
+    margin-left: 450px;
     padding: 20px;
     height: 100vh;
   }
   
-  .dashboard-header {
+  .dashboard-headerC {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    color: #052f47;
   }
   
   .add-course-btn {
-    background-color: #4caf50;
+    background-color: #3c309d;
     color: white;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
     font-size: 16px;
+    width: 200px;
+    margin-left: 820px;
   }
   
   .fa-pen-to-square{
@@ -118,14 +127,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
   }
   
   .popup {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    width: 500px;
     position: relative;
+
   }
   
   .close-popup {
@@ -139,16 +150,18 @@
   }
   
   .course-form input, .course-form select, .course-form textarea {
-    width: 100%;
-    margin: 10px 0;
+    width: 75%;
+    /* margin: 10px 0; */
+    margin-left: 60px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   
   .course-card{
-    background-color: white;
-    padding: 5px;
+    background-color: rgb(178 202 217);
+    padding: 25px;
+    
   }
   
   .course-form button {
@@ -156,17 +169,18 @@
     color: white;
     border: none;
     padding: 10px;
-    width: 100%;
+    width: 40%;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 160px;
   }
   
   /* Courses List */
   .courses-list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
-    gap: 20px;
+    gap: 25px;
   }
   
   .course-item {
@@ -191,3 +205,5 @@
     justify-content: center;
     align-items: center;
   }
+
+  

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
+import './artifact1.css';
 
 function Signup() {
   const [email, setEmail] = useState('');
@@ -33,11 +33,11 @@ function Signup() {
         answer: roleModel, // Send the role model answer in the request
       })
       .then((response) => {
-        setSuccessMessage('Signup successful! Please log in.');
+        setSuccessMessage('Signup successful! Please Wait for Approval.');
         setTimeout(() => {
           navigate("/");  // Navigate to login
           console.log("Navigated to login page");
-        }, 2000);
+        }, 1000);
 
         // navigate('/');  // Navigate to login immediately
       })

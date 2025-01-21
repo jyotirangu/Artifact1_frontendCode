@@ -26,7 +26,7 @@
 
 
 /* Navbar styling */
-.header .logo {
+ /* .header .logo {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
@@ -56,7 +56,7 @@
 .navbar a:active {
   background-color: #16a085;
   border-radius: 5px;
-}
+}  */
 
 /* Right side (Homepage Interface) */
 .right-side {
@@ -65,9 +65,6 @@
   /* width: 100vw; Set to cover 70% of the screen */
   /* background-color: #ecf0f1; */
   padding: 20px;
-  
-
-  
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -90,28 +87,31 @@
   
 }
 
-.image{
+.imageHP{
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .namebro{
-  font-family:'Pop';
+  
+  font-family:'Times New Roman', Times, serif;
   /* font-style: italic; */
 }
 /* Homepage content styling */
 .homepage-content h1 {
   /* font-family:sans-serif; */
   margin-top: -8px;
-  font-size: 3rem;
+  font-size: 4.5rem;
   font-weight: bold;
   color: #2c3e50;
+  margin-left: 35px;
 }
 
 .tagline {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-style:inherit;
-  color: #0d0e0e;
-  margin-top: 10px;
+  color: black;
+  margin-top: -35px;
+  margin-left: 22px;
 }
 

@@ -50,7 +50,7 @@ const UserManagement = () => {
       <Navbar />
       <div className="user-management-content">
         <h2>User Management</h2>
-        <img src="./src/assets/bgmu.png" alt="User management image" srcset="" width={700}/>
+        <img src="./src/assets/bgmu.png" alt="User management image" srcSet="" />
         {users.length === 0 ? (
           <p>No unverified users at the moment.</p>
         ) : (
@@ -89,6 +89,7 @@ const UserManagement = () => {
                   </td>
                 </tr>
               ))}
+
             </tbody>
           </table>
         )}

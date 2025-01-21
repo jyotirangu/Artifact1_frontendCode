@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './Navbar.css';
+// import nb from './assets/nb.png';
 
 const Navbar = () => {
 
@@ -28,8 +29,9 @@ const Navbar = () => {
         <Link to="/">Logout</Link> {/* Link to Logout */}
       </nav>
       </div>
-      <div className="imageCourse">
-              <img src="./src/assets/coursebg.png" alt="" srcSet="" width={400} />
+      <div className="imageCourseNB">
+              <img src="./src/assets/coursebg.png" alt="" srcSet="" width={300} />
+              {/* <img src={nbbg} alt="Image" width={400} /> */}
       </div>
     </div>
  

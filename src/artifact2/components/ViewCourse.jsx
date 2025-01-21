@@ -3,33 +3,34 @@ import axios from "axios";
 import Navbar from './Navbar';
 import './ViewCourse.css';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const ViewCourseData = () => {
   const [courseDetails, setCourseDetails] = useState(null);
   const [error, setError] = useState("");
-  const [completionMessage, setCompletionMessage] = useState(""); // For marking completion
+  const [completionMessage, setCompletionMessage] = useState("");
 
   const location = useLocation();
+  const navigate = useNavigate();
   const currentUrl = location.search;
 
   const urlParams = new URLSearchParams(currentUrl);
   const courseId = urlParams.get('id');
 
-  // const data = JSON.parse(localStorage.getItem('user'));
-  // const userId = data.user.id;
-
   const data = JSON.parse(localStorage.getItem('user'));
   const userId = data.user.id;
   const userRole = data.user.role;
 
+  const handleBackButtonClick = () => {
+    navigate(`/courses?id=${courseId}`); // Pass courseId back as query param
+  };
+
+  const { employeeId } = useParams();  // Ensure employeeId is being correctly extracted
+
   useEffect(() => {
-    // Fetch course details from the API
     const fetchCourseDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/viewCourse/${userId}/${courseId}`);
-        // console.log(response.data.course_details);
-        
-        // console.log(response.data.course_details.enrollment_status.is_completed);
         setCourseDetails(response.data.course_details);
       } catch (err) {
         setError(err.response?.data?.error || "Something went wrong");
@@ -37,16 +38,20 @@ const ViewCourseData = () => {
     };
 
     fetchCourseDetails();
-  }, [courseId]);
+  }, [courseId, userId]);
 
   const markAsCompleted = async () => {
     try {
-      await axios.put(`http://localhost:5000/markCompleted/${userId}/${courseId}`);
-      setCompletionMessage("Course marked as completed successfully!");
-
-      window.location.reload();
+      // If the user is HR, Instructor, or Manager, allow access to modules without enrollment
+      if (userRole === "HR" || userRole === "Instructor" || userRole === "Manager") {
+        navigate(`/CourseModulesPage?id=${courseId}`);
+      } else if (courseDetails.enrollment_status.status === "Enrolled") {
+        navigate(`/CourseModulesPage?id=${courseId}`);
+      } else {
+        setCompletionMessage("Failed to access modules! First enroll in the course.");
+      }
     } catch (err) {
-      setCompletionMessage("Failed to mark the course as completed! First Enrol the Course");
+      setCompletionMessage("An error occurred while navigating to the course modules page.");
     }
   };
 
@@ -68,56 +73,59 @@ const ViewCourseData = () => {
     created_by,
     enrollment_status,
     user_details,
-    employee_enrollments, // Added employee details
+    employee_enrollments,
   } = courseDetails;
-
-  console.log(courseDetails.enrollment_status.is_completed);
 
   return (
     <>
       <Navbar />
-      <h1>{title}</h1>
-    
+      <button className="back-buttonVC" onClick={handleBackButtonClick}>
+        <i className="fa fa-arrow-left"></i> Back
+      </button>
+      <div className='ViewCourseTitle'>
+        <h1>{title}</h1>
+      </div>
+
       <div className="course-detailsD">
-            <div>
-              <h2>Course Details</h2>
-              <p><strong>Description:</strong> {description}</p>
-              <p><strong>Instructor:</strong> {instructor}</p>
-              <p><strong>Start Date:</strong> {new Date(start_date).toLocaleDateString()}</p>
-              <p><strong>End Date:</strong> {new Date(end_date).toLocaleDateString()}</p>
-              <p><strong>Duration:</strong> {duration} days</p>
-            </div>
-            <div>
-              <h2>Created By</h2>
-              <p><strong>Name:</strong> {created_by.name}</p>
-              <p><strong>Email:</strong> {created_by.email}</p>
-            </div>
-            <div>
-              <h2>Enrollment Status</h2>
-              <p><strong>Status:</strong> {enrollment_status.status}</p>
-              <p><strong>Enrolled Date:</strong> {enrollment_status.enrolled_date
-                ? new Date(enrollment_status.enrolled_date).toLocaleDateString()
-                : "N/A"}</p>
-              <p><strong>Completed:</strong> {enrollment_status.is_completed ? "Yes" : "No"}</p>
-            </div>
-            <div>
-              <h2>User Details</h2>
-              <p><strong>Name:</strong> {user_details.name}</p>
-              <p><strong>Email:</strong> {user_details.email}</p>
-              <p><strong>Role:</strong> {user_details.role}</p>
-            </div>
-            </div>
-            {/* Mark as Completed Button */}
-          {(userRole === 'Employee')?(<div className="completion-section">
-            <button onClick={markAsCompleted}>
-              {(courseDetails.enrollment_status.is_completed)?"Completed":"Mark as Completed"}
-              </button>
-            {completionMessage && <p className="completion-messageVC">{completionMessage}</p>}
-          </div>):<div></div>}
+        <div>
+          <h2>Course Details</h2>
+          <p><strong>Description:</strong> {description}</p>
+          <p><strong>Instructor:</strong> {instructor}</p>
+          <p><strong>Start Date:</strong> {new Date(start_date).toLocaleDateString()}</p>
+          <p><strong>End Date:</strong> {new Date(end_date).toLocaleDateString()}</p>
+          <p><strong>Duration:</strong> {duration} days</p>
+        </div>
+        <div>
+          <h2>Created By</h2>
+          <p><strong>Name:</strong> {created_by.name}</p>
+          <p><strong>Email:</strong> {created_by.email}</p>
+        </div>
+        <div>
+          <h2>Enrollment Status</h2>
+          <p><strong>Status:</strong> {enrollment_status.status}</p>
+          <p><strong>Enrolled Date:</strong> {enrollment_status.enrolled_date
+            ? new Date(enrollment_status.enrolled_date).toLocaleDateString()
+            : "N/A"}</p>
+          <p><strong>Completed:</strong> {enrollment_status.is_completed ? "Yes" : "No"}</p>
+        </div>
+        <div>
+          <h2>User Details</h2>
+          <p><strong>Name:</strong> {user_details.name}</p>
+          <p><strong>Email:</strong> {user_details.email}</p>
+          <p><strong>Role:</strong> {user_details.role}</p>
+        </div>
+      </div>
 
-
-
-      
+      {/* Navigate to Modules Button */}
+      <div className="completion-section">
+        <button
+          onClick={markAsCompleted}
+          disabled={!(courseDetails.enrollment_status.status === "Enrolled" || userRole === "HR" || userRole === "Instructor" || userRole === "Manager")}
+        >
+          {(enrollment_status.is_completed) ? "View Modules" : "Go to Course Modules"}
+        </button>
+        {completionMessage && <p className="completion-messageVC">{completionMessage}</p>}
+      </div>
 
       {/* Employee Enrollment Table */}
       <div className="employee-enrollment-section">
@@ -130,7 +138,8 @@ const ViewCourseData = () => {
                 <th>Email</th>
                 <th>Status</th>
                 <th>Enrolled Date</th>
-                <th>Completed</th>
+                {/* <th>Completed</th> */}
+                {(userRole === 'HR' || userRole === 'Instructor') && <th>Performance</th>}
               </tr>
             </thead>
             <tbody>
@@ -144,7 +153,14 @@ const ViewCourseData = () => {
                       ? new Date(employee.enrolled_date).toLocaleDateString()
                       : "N/A"}
                   </td>
-                  <td>{employee.is_completed ? "Yes" : "No"}</td>
+                  {/* <td>{employee.is_completed ? "Yes" : "No"}</td> */}
+                  {(userRole === 'HR' || userRole === 'Instructor') && (
+                    <td>
+                      <button onClick={() => navigate(`/employee-progress?userId=${employee.user_id}&courseId=${courseId}`)}>
+                        Progress
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

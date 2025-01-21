@@ -1,63 +1,80 @@
-/* Navbar Styles */
-.sidebar{
+/* Sidebar Styles */
+.sidebar {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  position: fixed; /* Keep sidebar fixed on the left */
+  top: 0;
+  left: 0;
+  width: 380px; /* Adjust sidebar width */
+  height: 100vh; /* Full height */
+  background-color: #96c3de; /* Background color */
+  border-right: 1px solid #448ed9; /* Optional: Border for separation */
+  /* padding: 0px; */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 30px;
+  overflow:hidden;
 }
+
+/* Header inside sidebar */
 .headerD {
-    /* background-color: #2c3e50; */
-    padding: 50px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-  }
-  /* #2c3e50 */
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .imageCourse{
-    margin-bottom: 100px;
-  }
-  
-  .logodashboard {
-    color: black;
-    font-size: 2rem;
-    font-weight: bold;
-    text-decoration:lightseagreen;
-   
-   
-    /* margin-bottom: 30px; */
-    
-  }
-  
-  .navbar {
-    list-style: none;
-    padding: 20px;
-    text-align: center;
-    flex-direction: column;
-  }
-  
-  .navbar a {
-    color: black;
-    padding: 5px;
-    display: inline;
-    flex-direction: column;
-    text-decoration: none;
-    justify-content: space-between;
-    overflow: hidden;
-    font-size: 1.1rem;
-    left: 0;
-  }
-  
-  .navbar a:hover {
-    background-color: rgb(246, 241, 241);
-    border-radius: 5px;
-  }
-  /* #34495e */
-  
-  .navbar a:active {
-    background-color:#7cabc7;
-    border-radius: 5px;
-  }
-  
+.logodashboard {
+  color: black;
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
 
+/* Navbar Links */
+.navbar {
+  display: flex;
+  flex-direction: column; /* Stack links vertically */
+  align-items: center;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+  margin-bottom: auto;
+  width: 100%;
+}
+
+.navbar a {
+  color: black;
+  padding: 5px 20px;
+  margin: 10px 0;
+  text-decoration: none;
+  font-size: 1.3rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.navbar a:hover {
+  background-color: #e0e0e0;
+}
+
+.navbar a:active {
+  background-color: #c0c0c0;
+}
+
+/* Image Section */
+.imageCourseNB {
+  margin-top: auto; /* Push image section to the bottom */
+  text-align: center;
+}
+
+.imageCourseNB img{
+    margin-bottom: 0px; 
+    width: 450px;
+    /* margin-left: 10px; */
+    /* height: 400px; */
+    size: 100%;
+    margin-bottom: 40px;
+
+   }

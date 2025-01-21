@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './artifact1.css';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -41,8 +42,8 @@ function ForgotPassword() {
   return (
     <div className="formContainer">
         <>
-          
-          <p>What is your role model?</p>
+        <h1>Reset Password</h1>
+          <p align="center">What is your role model?</p>
           <input
             type="text"
             placeholder="Enter your answer"

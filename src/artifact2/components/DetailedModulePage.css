@@ -1,0 +1,201 @@
+/* Disable scrolling on the body */
+/* body {
+  overflow: hidden; 
+  margin: 0;
+} */
+
+
+/* General Container */
+.module-page-containerDMP {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  width: 1000px;
+  padding: 20px;
+  margin-top: 50px;
+  background-color: #96c3de;
+  margin-left: 450px;
+  
+}
+
+/* Header Section */
+.module-headerDMP {
+  background-color: #bfd5e2;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.module-headerDMP h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.module-headerDMP p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.module-headerDMP strong {
+  font-weight: bold;
+} 
+
+/* Button for Starting Quiz */
+.start-quiz-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #125982;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.start-quiz-btn:hover {
+  background-color: #45a049;
+}
+
+/* Quiz Section */
+.quizzes-sectionDMP {
+  margin-top: 30px;
+}
+
+.quiz-cardDMP {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-cardDMP h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.quiz-optionsDMP {
+  margin-left: 20px;
+}
+
+.option-labelDMP {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+/* Submit Button */
+.submit-btnDMP {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit-btnDMP:hover {
+  background-color: #45a049;
+} 
+
+/* Submission Status */
+.submission-statusDMP {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ff9800;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  width: 50px;
+}
+
+.submission-statusDMP.error {
+  background-color: #f44336;
+}
+
+.submission-statusDMP.success {
+  background-color: #f9faf9;
+} 
+
+/* Loading Text */
+ .module-page-containerDMP p {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 50px;
+} 
+
+/* Container to center the message */
+.submission-status-container {
+  position: fixed;  /* Fix it in the middle of the screen */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);  /* Slight dark background */
+  z-index: 1000; /* Ensure it appears on top */
+}
+
+
+.submission-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e7f9e7;  
+  color: #2d7a2d;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* width:300px; */
+}
+
+
+.checkmark {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+/* Failure Status */
+.submission-status.failure {
+  background-color: #fbeaea; /* Light red for failure */
+  color: #a33a3a; /* Dark red text */
+}
+
+/* Icon Styling */
+.submission-status .icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.back-buttonDMP {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color:#125982;
+  border:black;
+  font-size: 20px;
+  cursor: pointer;
+  WIDTH: 200px;
+  margin-left: 450px;
+  margin-bottom: 30px;
+}
+
+
+/* //===================================================================================================LOOKING FOR SUBMIT MESSAGE IN BELOW 
+
+
+
+

@@ -3,20 +3,20 @@
   font-family: Arial, sans-serif;
   background-color: #BFD5E2;
   border-radius: 8px;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   width: 80vw;
   height: 100vh;
-  margin-left: 20%;
+  margin-left: 25%;
+  margin-top: 10%
 }
 
 .audit-trail-title-at {
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 30px;
+  color: #052f47;
 }
 
 .audit-trail-table-at {
-  width: 100%;
+  width: 1240px;
   border-collapse: collapse;
   background: #ffffff;
   margin-top: 10px;

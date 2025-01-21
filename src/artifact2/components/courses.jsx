@@ -3,7 +3,8 @@ import axios from 'axios';
 import './course.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+
 function Addcourses() {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState('');
@@ -134,6 +135,7 @@ function Addcourses() {
       });
   };
 
+
   const handleEdit = (course) => {
     setCourseData({
       id: course.id,
@@ -169,202 +171,105 @@ function Addcourses() {
   };
 
   const filteredCourses = courses.filter((course) => {
-    // Filter by title search query
+    console.log(course.enrollment_status)
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase());
-  
-    // Filter based on selected filter option
     const matchesFilter =
       filter === 'AllCourses' ||
       (filter === 'EnrolledCourses' && course.is_enrolled) ||
-      (filter === 'CompletedCourses' && course.enrollment_status=="Completed");
-  
+      (filter === 'CompletedCourses' && course.enrollment_status === "Completed");
+    
+
     return matchesSearch && matchesFilter;
+
   });
-  
-  
+
+
   return (
     <div className="dashboard">
       <Navbar />
-      <div >     
-     <div className="main-content">
-        <div className="dashboard-header">
-          <h1 className="dashboard-title">Course Management Dashboard</h1>
-          <div className="upskill-line">
-            <span>Upskill your knowledge!</span>
-          </div>
-          {(userRole === 'HR' || userRole === 'Instructor') && (
-            <button className="add-course-btn" onClick={() => setShowPopup(true)}>
-              Add Course
-            </button>
-          )}
-        </div>
-
-        <div className="search-filter">
-          <input
-            type="text"
-            placeholder="Search by Course Title"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
-          {userRole === "Employee" && (
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="AllCourses">All Courses</option>
-              <option value="EnrolledCourses">Enrolled Courses</option>
-              <option value="CompletedCourses">Completed Courses</option>
-            </select>
-          )}
-        </div>
-
-
-        {showPopup && (
-          <div className="popup-overlay">
-            <div className="popup">
-              <span className="close" onClick={() => setShowPopup(false)}>
-                &times;
-              </span>
-              <h2 className="popup-title">{isEditMode ? 'Edit Course' : 'Add New Course'}</h2>
-              <form className="course-form">
-                <input
-                  type="text"
-                  name="course_id"
-                  placeholder="Course ID"
-                  value={courseData.course_id}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  disabled={isEditMode}
-                />
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Course Title"
-                  value={courseData.title}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-                <textarea
-                  name="description"
-                  placeholder="Course Description"
-                  value={courseData.description}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-                <textarea
-                  name="detailed_description"
-                  placeholder="Detailed Description"
-                  value={courseData.detailed_description}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-                {userRole === 'HR' && (
-                  <select
-                    name="instructor"
-                    value={courseData.instructor}
-                    onChange={handleInputChange}
-                    className="form-input"
-                  >
-                    <option value="">Select Instructor</option>
-                    {instructors.map((instructor) => (
-                      <option key={instructor.id} value={instructor.id}>
-                        {instructor.name} ({instructor.email})
-                      </option>
-                    ))}
-                  </select>
-                )}
-                {userRole === 'Instructor' && (
-                  <input
-                    type="text"
-                    name="instructor"
-                    value={courseData.instructor}
-                    disabled
-                    className="form-input"
-                  />
-                )}
-                <input
-                  type="date"
-                  name="start_date"
-                  value={courseData.start_date}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-                <input
-                  type="date"
-                  name="end_date"
-                  value={courseData.end_date}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-                <input
-                  type="text"
-                  name="duration"
-                  value={courseData.duration}
-                  disabled
-                  className="form-input"
-                  placeholder="Duration (calculated)"
-                />
-                <button type="button" className="submit-btn" onClick={handleAddOrEditCourse}>
-                  Submit
-                </button>
-              </form>
-              {error && <p className="error">{error}</p>}
+      <div>
+        <div className="main-content">
+          <div className="dashboard-headerC">
+            <h1 className="dashboard-titleC">Course Management Dashboard</h1>
+            <div className="upskill-line">
+              <span>Upskill your knowledge!</span>
             </div>
           </div>
-        )}
 
-            <div className="right_content_div">
-           
-              <div className="courses-container">
-                <h2 className="courses-title">Courses List</h2>
-                <div className="courses-list">
-                  {filteredCourses.length === 0 ? (
-                    <p>No courses available</p>
-                  ) : (
-                    filteredCourses.map((course) => (
-                      <div key={course.course_id} className="course-card">
-                        {(data.user.role === 'HR' || data.user.role === 'Instructor') && (
-                          <div className="icon">
-                            <i
-                              className="fa-regular fa-pen-to-square"
-                              onClick={() => handleEdit(course)}
-                            ></i>
-                          </div>
-                        )}
-                        <h3>{course.title}</h3>
-                        <p><strong>Course ID:</strong> {course.course_id}</p>
-                        <p><strong>Instructor:</strong> {course.instructor}</p>
-                        <p><strong>Duration:</strong> {course.duration} days</p>
-                        <p><strong>Created Date:</strong> {new Date(course.created_at).toLocaleDateString()}</p>
-                        <p><strong>enrollment_status :</strong> {course.enrollment_status}</p>
+          <div className="search-filter">
+            <input
+              type="text"
+              placeholder="Search by Course Title"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+            {userRole === "Employee" && (
+              <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="filter-select"
+              >
+                <option value="AllCourses">All Courses</option>
+                <option value="EnrolledCourses">Enrolled Courses</option>
+                <option value="CompletedCourses">Completed Courses</option>
+              </select>
+            )}
+          </div>
 
-                        {/* <button className="view-course-btn">View Course</button> */}
+          <div className="right_content_div">
+            <div className="courses-container">
+              <h2 className="courses-title">Courses List
+                {(userRole === 'HR' || userRole === 'Instructor') && (
+                  <Link to="/AddCoursePage">
+                    <button className="add-course-btn">Add Course</button>
+                  </Link>
+                )}
+              </h2>
 
-                        <div>
-                          <button className="view-course-btn" onClick={()=>{
-                            navigate(`/ViewCourse?id=${course.id}`)
-                          }}>View Course</button>
+              <div className="courses-list">
+                {filteredCourses.length === 0 ? (
+                  <p>No courses available</p>
+                ) : (
+                  filteredCourses.map((course) => (
+                    <div key={course.course_id} className="course-card">
+                      {(data.user.role === 'HR' || data.user.role === 'Instructor') && (
+                        <div className="icon">
+                          <i
+                            className="fa-regular fa-pen-to-square"
+                            onClick={() => handleEdit(course)}
+                          ></i>
                         </div>
+                      )}
+                      <h3>{course.title}</h3>
+                      <p><strong>Course ID:</strong> {course.course_id}</p>
+                      {/* <p><strong>Instructor:</strong> {course.instructor}</p> */}
+                      <p><strong>Duration:</strong> {course.duration} days</p>
+                      <p><strong>Created Date:</strong> {new Date(course.created_at).toLocaleDateString()}</p>
+                      {/* {(data.user.role === 'Employee') && (<p><strong>Enrollment status :</strong> {course.enrollment_status}</p>)} */}
+                      <div>
+                        <button className="view-course-btn" onClick={() => {
+                          navigate(`/ViewCourse?id=${course.id}`)
+                        }}>View Course</button>
+                      </div>
 
-                        {userRole === 'Employee' && (
-                          <button
-                            className="enroll-btn"
-                            onClick={() => handleEnroll(course.id)}
-                            disabled={course.is_enrolled}
-                          >
-                            {(course.is_enrolled ? 'Enrolled' : 'Enroll')}
-                          </button>
-                        )}
-                      </div>                     
-                    ))
-                  )}
-                </div>
-              </div>              
+                      {userRole === 'Employee' && (
+                        <button
+                          className="enroll-btn"
+                          onClick={() => handleEnroll(course.id)}
+                          disabled={course.is_enrolled}
+                        >
+                          {(course.is_enrolled ? 'Enrolled' : 'Enroll')}
+                        </button>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
-        </div>        
-      </div>     
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

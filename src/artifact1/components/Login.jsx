@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate hook
+import './artifact1.css';
 
 function Login() {
   const [email, setEmail] = useState('');
