@@ -14,6 +14,9 @@ import AddCoursePage from './artifact2/components/AddCoursePage';
 import CourseModulePage from './artifact2/components/CourseModulesPage'
 import DetailedModulePage from './artifact2/components/DetailedModulePage';
 import EmployeeProgressPage from './artifact2/components/EmployeeProgressPage';
+import ProfilePages from './artifact2/components/ProfilePages';
+import Performance from './artifact2/components/PerformancePage';
+import IndividualPerformance from './artifact2/components/IndividualPerformance';
 
 
 function App() {
@@ -41,9 +44,10 @@ function App() {
       <Route path="/AddCoursePage" element={<AddCoursePage />} />
       <Route path="/CourseModulesPage" element={<CourseModulePage />} />
       <Route path="/DetailedModulePage" element={<DetailedModulePage />} />
-      {/* <Route path="/module/:moduleId/details" element={<DetailedModulePage />} /> */}
-      {/* <Route path="/EmployeeProgressPage" element={<EmployeeProgressPage />} /> */}
       <Route path="/employee-progress" element={<EmployeeProgressPage />} />
+      <Route path="/ProfilePages" element={<ProfilePages />} />
+      <Route path="/PerformancePage" element={<Performance />} />
+      <Route path="/IndividualPerformance" element={<IndividualPerformance />} />
       </Routes>
     </Router>
   );

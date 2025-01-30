@@ -9,12 +9,11 @@ const AuditTrail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch the audit trail data
     axios
       .get(`http://localhost:5000/course/audittrail`)
       .then((response) => {
-        console.log(response.data.audit_trail);
-        setAuditTrail(response.data.audit_trail);
+        const sortedData = response.data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Newest first
+        setAuditTrail(sortedData);
         setLoading(false);
       })
       .catch((err) => {
@@ -29,23 +28,23 @@ const AuditTrail = () => {
   return (
     <>
       <div className='MainAt'>
-      <Navbar /> 
+        <Navbar />
         <div className="audit-trail-container-at">
           <h1 className="audit-trail-title-at">Audit Trail</h1>
           <table className="audit-trail-table-at">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
+                <th>Serial No.</th>
+                <th>User ID</th>
                 <th>Action</th>
                 <th>Date-Time</th>
               </tr>
             </thead>
             <tbody>
-              {auditTrail.map((audit, index) => (
-                <tr key={index}>
+              {auditTrail.map((audit) => (
+                <tr key={audit.id}>
+                  <td>{audit.id}</td>
                   <td>{audit.user_id}</td>
-                  <td>{audit.user_name}</td>
                   <td>{audit.action}</td>
                   <td>{new Date(audit.timestamp).toLocaleString()}</td>
                 </tr>

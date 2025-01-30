@@ -6,10 +6,15 @@ const AddCoursePage = () => {
   const [modules, setModules] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState(0);
   const [instructors, setInstructors] = useState([]);
   const [error, setError] = useState("");
-  const data = JSON.parse(localStorage.getItem('user'));
+  const [courseId, setCourseId] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [detailedDescription, setDetailedDescription] = useState("");
+  const [instructor, setInstructor] = useState("");
+  const data = JSON.parse(localStorage.getItem("user"));
   const userId = data.user.id;
   const userRole = data.user.role;
 
@@ -18,7 +23,6 @@ const AddCoursePage = () => {
       .get(`http://localhost:5000/courses/${userId}`)
       .then((response) => {
         console.log(response.data);
-        // Handle course data if needed
       })
       .catch((error) => {
         setError(error.response?.data?.error || "An error occurred");
@@ -41,8 +45,7 @@ const AddCoursePage = () => {
       id: modules.length + 1,
       title: "",
       description: "",
-      objectives: "",
-      overview: "",
+      objectives: "Learning",
       learningPoints: "",
       quizzes: [],
     };
@@ -89,7 +92,35 @@ const AddCoursePage = () => {
   };
 
   const handleSubmit = () => {
-    alert("Course has been successfully created!");
+    const courseData = {
+      course_id: courseId,
+      title,
+      description,
+      instructor,
+      start_date: startDate,
+      end_date: endDate,
+      duration,
+      detailed_description: detailedDescription,
+      created_by: userId,
+      modules,
+    };
+
+    console.log("Course Data Sent:", courseData);
+
+    axios
+      .post("http://127.0.0.1:5000/addCourse", courseData)
+      .then((response) => {
+        alert("Course has been successfully created!");
+        console.log(response.data);
+      })
+      .catch((error) => {
+
+        if (error.response) {
+          console.error("Error Response Data:", error.response.data);
+        } else {
+          console.error("Error:", error.message);
+        }
+      });
   };
 
   return (
@@ -99,19 +130,34 @@ const AddCoursePage = () => {
       <div className="field-group-acp">
         <div className="input-acp">
           <label>Course ID</label>
-          <input type="text" placeholder="Enter Course ID" />
+          <input
+            type="text"
+            placeholder="Enter Course ID"
+            value={courseId}
+            onChange={(e) => setCourseId(e.target.value)}
+          />
         </div>
         <div className="input-acp">
           <label>Course Title</label>
-          <input type="text" placeholder="Enter Course Title" />
+          <input
+            type="text"
+            placeholder="Enter Course Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
         <div className="input-acp">
           <label>Course Description</label>
-          <textarea placeholder="Enter Course Description" rows="3"></textarea>
+          <textarea
+            placeholder="Enter Course Description"
+            rows="3"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
         </div>
         <div className="input-acp">
           <label>Instructor</label>
-          <select>
+          <select value={instructor} onChange={(e) => setInstructor(e.target.value)}>
             <option value="">Select Instructor</option>
             {instructors.length > 0 ? (
               instructors.map((instructor, index) => (
@@ -123,6 +169,15 @@ const AddCoursePage = () => {
               <option>Loading instructors...</option>
             )}
           </select>
+        </div>
+        <div className="input-acp">
+          <label>Detailed Description</label>
+          <textarea
+            placeholder="Enter Detailed Description"
+            rows="3"
+            value={detailedDescription}
+            onChange={(e) => setDetailedDescription(e.target.value)}
+          ></textarea>
         </div>
         <div className="input-acp">
           <label>Start Date</label>
@@ -159,7 +214,6 @@ const AddCoursePage = () => {
       {modules.map((module, moduleIndex) => (
         <div key={moduleIndex} className="module-container-acp">
           <h3 className="module-header-acp">Module {moduleIndex + 1}</h3>
-
           <div className="module-fields-acp">
             <div className="input-acp">
               <label>Module Title</label>
@@ -167,9 +221,7 @@ const AddCoursePage = () => {
                 type="text"
                 placeholder="Enter Module Title"
                 value={module.title}
-                onChange={(e) =>
-                  handleModuleChange(moduleIndex, "title", e.target.value)
-                }
+                onChange={(e) => handleModuleChange(moduleIndex, "title", e.target.value)}
               />
             </div>
             <div className="input-acp">
@@ -178,9 +230,7 @@ const AddCoursePage = () => {
                 placeholder="Enter Module Description"
                 rows="3"
                 value={module.description}
-                onChange={(e) =>
-                  handleModuleChange(moduleIndex, "description", e.target.value)
-                }
+                onChange={(e) => handleModuleChange(moduleIndex, "description", e.target.value)}
               ></textarea>
             </div>
             <div className="input-acp">
@@ -189,9 +239,7 @@ const AddCoursePage = () => {
                 placeholder="Enter Learning Points"
                 rows="3"
                 value={module.learningPoints}
-                onChange={(e) =>
-                  handleModuleChange(moduleIndex, "learningPoints", e.target.value)
-                }
+                onChange={(e) => handleModuleChange(moduleIndex, "learningPoints", e.target.value)}
               ></textarea>
             </div>
           </div>
@@ -199,7 +247,6 @@ const AddCoursePage = () => {
           {module.quizzes.map((quiz, quizIndex) => (
             <div key={quizIndex} className="quiz-container-acp">
               <h4 className="quiz-header-acp">Quiz {quizIndex + 1}</h4>
-
               <div className="quiz-fields-acp">
                 <div className="input-acp">
                   <label>Question</label>
@@ -251,21 +298,19 @@ const AddCoursePage = () => {
             </div>
           ))}
 
-          <button
-            className="add-quiz-button"
-            onClick={() => addQuiz(moduleIndex)}
-          >
+          <button className="add-quiz-button" onClick={() => addQuiz(moduleIndex)}>
             + Add Question
           </button>
         </div>
       ))}
 
-      <button className="submit-buttonACP" onClick={handleSubmit}>
-        Submit
+<button className="submit-buttonACP" onClick={handleSubmit}>
+        Submit Course
       </button>
+
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };
 
 export default AddCoursePage;
-

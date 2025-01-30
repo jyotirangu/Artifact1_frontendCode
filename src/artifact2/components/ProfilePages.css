@@ -1,0 +1,133 @@
+  /* Profile Page Container */
+.profileContainerPP {
+  /* max-width: 1200px; */
+  width: 1000px;
+  margin-left: 30%;
+  padding: 20px;
+}
+
+/* Header Section */
+.headerSectionPP {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.welcomeMessagePP {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000000;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.userRolePP {
+  font-size: 1.2rem;
+  color: #000000;
+  margin-top: 10px;
+}
+
+/* Profile Details Section */
+.profileDetailsPP {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 20px;
+}
+
+/* Card Styling */
+.cardPP {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardPP:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardTitlePP {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4e54c8;
+  margin-bottom: 15px;
+}
+
+/* Table Styling */
+.courseTablePP {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.courseHeaderPP {
+  background: #4e54c8;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #dddddd;
+}
+
+.courseRowPP:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.courseRowPP:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+.courseRowPP:hover {
+  background-color: #e0e7ff;
+}
+
+.courseRowPP td {
+  padding: 10px;
+  color: #555555;
+  font-size: 0.9rem;
+}
+
+/* Chart Styling */
+.coursePerformanceChartPP {
+  margin-top: 20px;
+  height: 300px;
+}
+
+/* Footer Styling */
+.footerPP {
+  text-align: center;
+  margin-top: 40px;
+  padding: 10px;
+  background: #4e54c8;
+  color: #ffffff;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.footerPP p {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .welcomeMessagePP {
+    font-size: 2rem;
+  }
+
+  .userRolePP {
+    font-size: 1rem;
+  }
+
+  .cardPP {
+    padding: 15px;
+  }
+
+  .cardTitlePP {
+    font-size: 1.3rem;
+  }
+
+  .courseRowPP td {
+    font-size: 0.8rem;
+  }
+}

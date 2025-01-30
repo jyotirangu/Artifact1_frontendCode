@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import './artifact1.css';
 
 function Signup() {
+  const [name, setName] = useState(''); // Added state for name
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,7 +15,7 @@ function Signup() {
   const navigate = useNavigate()
 
   const handleSignup = () => {
-    if (!email || !password || !confirmPassword || !role || !roleModel) {
+    if (!name || !email || !password || !confirmPassword || !role || !roleModel) {
       setErrorMessage('All fields are required.');
       return;
     }
@@ -26,7 +27,7 @@ function Signup() {
 
     axios
       .post('http://localhost:5000/register', {
-        name: email.split('@')[0],
+        name,
         email,
         password,
         role,
@@ -38,8 +39,6 @@ function Signup() {
           navigate("/");  // Navigate to login
           console.log("Navigated to login page");
         }, 1000);
-
-        // navigate('/');  // Navigate to login immediately
       })
       .catch((error) => {
         setErrorMessage(error.response?.data?.error || 'An error occurred');
@@ -49,6 +48,13 @@ function Signup() {
   return (
     <div className="formContainer">
       <h1>Signup</h1>
+      <input
+        type="text"
+        placeholder="Enter your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
       <input
         type="email"
         placeholder="Enter your email"
@@ -91,10 +97,8 @@ function Signup() {
         required
       />
       
-      {/* <span className="error">{errorMessage}</span> */}
       <div className="buttons">
         <button onClick={handleSignup}>Signup</button>
-        
       </div>
       {successMessage && <span className="success">{successMessage}</span>}
     </div>
@@ -102,4 +106,3 @@ function Signup() {
 }
 
 export default Signup;
-

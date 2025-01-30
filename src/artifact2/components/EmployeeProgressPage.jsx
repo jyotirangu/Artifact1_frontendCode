@@ -21,11 +21,13 @@ const EmployeeProgressPage = () => {
   useEffect(() => {
     const fetchProgressData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/employee-progress-detail/${userId}/${courseId}`);
+        const response = await fetch(`http://127.0.0.1:5000/employee-course-progress/${userId}/${courseId}`);
+        
         if (!response.ok) {
           throw new Error("Failed to fetch progress data");
         }
         const data = await response.json();
+        console.log(data)
         setProgressData(data.progress || []);
       } catch (err) {
         setError(err.message);

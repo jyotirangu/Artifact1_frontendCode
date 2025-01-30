@@ -42,7 +42,7 @@ function Addcourses() {
     axios
       .get(`http://localhost:5000/courses/${userId}`)
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data.courses)
         setCourses(response.data.courses);
       })
       .catch((error) => {
@@ -171,12 +171,12 @@ function Addcourses() {
   };
 
   const filteredCourses = courses.filter((course) => {
-    console.log(course.enrollment_status)
+    // console.log(course)
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter =
       filter === 'AllCourses' ||
       (filter === 'EnrolledCourses' && course.is_enrolled) ||
-      (filter === 'CompletedCourses' && course.enrollment_status === "Completed");
+      (filter === 'CompletedCourses' && course.status === "Completed");
     
 
     return matchesSearch && matchesFilter;
@@ -246,6 +246,7 @@ function Addcourses() {
                       {/* <p><strong>Instructor:</strong> {course.instructor}</p> */}
                       <p><strong>Duration:</strong> {course.duration} days</p>
                       <p><strong>Created Date:</strong> {new Date(course.created_at).toLocaleDateString()}</p>
+                      <p><strong> Enrollment Status :</strong>  {(course.is_enrolled==true?"Enrolled":"Not Enrolled") }</p>
                       {/* {(data.user.role === 'Employee') && (<p><strong>Enrollment status :</strong> {course.enrollment_status}</p>)} */}
                       <div>
                         <button className="view-course-btn" onClick={() => {

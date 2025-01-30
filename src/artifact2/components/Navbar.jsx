@@ -24,8 +24,11 @@ const Navbar = () => {
         <Link to="/courses">Courses</Link> {/* Link to Courses */}
         {(userRole == 'HR' || userRole == 'Manager')?(<Link to="/AuditTrail">Audit Trail</Link>):<div></div>}
         {(userRole == 'HR')?(<Link to="/UserManagement">Manage User</Link>):<div></div>}
-        <a href="/">Profile</a>
-        <a href="/">Settings</a>
+        {/* {(userRole == 'Employee')?(<Link to="/ProfilePages">Profile</Link>):<div></div>} */}
+        <Link to="/ProfilePages">Profile</Link>
+        {/* <a href="/">Profile</a> */}
+        {/* <a href="/">Settings</a> */}
+        {(userRole == 'HR'|| userRole == 'Manager')?(<Link to="/PerformancePage">Performance</Link>):<div></div>}
         <Link to="/">Logout</Link> {/* Link to Logout */}
       </nav>
       </div>

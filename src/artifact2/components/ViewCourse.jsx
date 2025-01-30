@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 
 const ViewCourseData = () => {
   const [courseDetails, setCourseDetails] = useState(null);
+  const [enrollmentData, setEnrollmentData] = useState([]);
   const [error, setError] = useState("");
   const [completionMessage, setCompletionMessage] = useState("");
 
@@ -22,10 +23,8 @@ const ViewCourseData = () => {
   const userRole = data.user.role;
 
   const handleBackButtonClick = () => {
-    navigate(`/courses?id=${courseId}`); // Pass courseId back as query param
+    navigate(`/courses?id=${courseId}`); 
   };
-
-  const { employeeId } = useParams();  // Ensure employeeId is being correctly extracted
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -37,22 +36,21 @@ const ViewCourseData = () => {
       }
     };
 
+    const fetchEnrollmentData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/course/${courseId}/enrollments`);
+        setEnrollmentData(response.data.enrolled_users);
+      } catch (err) {
+        console.error("Error fetching enrollment data:", err);
+      }
+    };
+
     fetchCourseDetails();
+    fetchEnrollmentData();
   }, [courseId, userId]);
 
   const markAsCompleted = async () => {
-    try {
-      // If the user is HR, Instructor, or Manager, allow access to modules without enrollment
-      if (userRole === "HR" || userRole === "Instructor" || userRole === "Manager") {
-        navigate(`/CourseModulesPage?id=${courseId}`);
-      } else if (courseDetails.enrollment_status.status === "Enrolled") {
-        navigate(`/CourseModulesPage?id=${courseId}`);
-      } else {
-        setCompletionMessage("Failed to access modules! First enroll in the course.");
-      }
-    } catch (err) {
-      setCompletionMessage("An error occurred while navigating to the course modules page.");
-    }
+    navigate(`/CourseModulesPage?id=${courseId}`);
   };
 
   if (error) {
@@ -71,9 +69,8 @@ const ViewCourseData = () => {
     end_date,
     duration,
     created_by,
-    enrollment_status,
-    user_details,
-    employee_enrollments,
+    status,
+    is_completed
   } = courseDetails;
 
   return (
@@ -102,62 +99,43 @@ const ViewCourseData = () => {
         </div>
         <div>
           <h2>Enrollment Status</h2>
-          <p><strong>Status:</strong> {enrollment_status.status}</p>
-          <p><strong>Enrolled Date:</strong> {enrollment_status.enrolled_date
-            ? new Date(enrollment_status.enrolled_date).toLocaleDateString()
-            : "N/A"}</p>
-          <p><strong>Completed:</strong> {enrollment_status.is_completed ? "Yes" : "No"}</p>
-        </div>
-        <div>
-          <h2>User Details</h2>
-          <p><strong>Name:</strong> {user_details.name}</p>
-          <p><strong>Email:</strong> {user_details.email}</p>
-          <p><strong>Role:</strong> {user_details.role}</p>
+          <p><strong>Status:</strong> {status}</p>
+          <p><strong>Completed:</strong> {is_completed ? "Yes" : "No"}</p>
         </div>
       </div>
 
-      {/* Navigate to Modules Button */}
       <div className="completion-section">
         <button
           onClick={markAsCompleted}
-          disabled={!(courseDetails.enrollment_status.status === "Enrolled" || userRole === "HR" || userRole === "Instructor" || userRole === "Manager")}
+          disabled={!(status === "Enrolled" || userRole === "HR" || userRole === "Instructor" || userRole === "Manager")}
         >
-          {(enrollment_status.is_completed) ? "View Modules" : "Go to Course Modules"}
+          {is_completed ? "View Modules" : "Go to Course Modules"}
         </button>
         {completionMessage && <p className="completion-messageVC">{completionMessage}</p>}
       </div>
 
-      {/* Employee Enrollment Table */}
       <div className="employee-enrollment-section">
         <h2>Employee Enrollment Details</h2>
-        {employee_enrollments && employee_enrollments.length > 0 ? (
+        {enrollmentData.length > 0 ? (
           <table>
             <thead>
               <tr>
+                <th>S.No</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Status</th>
-                <th>Enrolled Date</th>
-                {/* <th>Completed</th> */}
-                {(userRole === 'HR' || userRole === 'Instructor') && <th>Performance</th>}
+                {(userRole === 'HR' || userRole === 'Manager') && <th>Action</th>}
               </tr>
             </thead>
             <tbody>
-              {employee_enrollments.map((employee) => (
-                <tr key={employee.user_id}>
-                  <td>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.status}</td>
-                  <td>
-                    {employee.enrolled_date
-                      ? new Date(employee.enrolled_date).toLocaleDateString()
-                      : "N/A"}
-                  </td>
-                  {/* <td>{employee.is_completed ? "Yes" : "No"}</td> */}
-                  {(userRole === 'HR' || userRole === 'Instructor') && (
+              {enrollmentData.map((user, index) => (
+                <tr key={user.id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  {(userRole === 'HR' || userRole === 'Manager') && (
                     <td>
-                      <button onClick={() => navigate(`/employee-progress?userId=${employee.user_id}&courseId=${courseId}`)}>
-                        Progress
+                      <button onClick={() => navigate(`/employee-progress?userId=${user.id}&courseId=${courseId}`)}>
+                        View Progress
                       </button>
                     </td>
                   )}
@@ -174,4 +152,3 @@ const ViewCourseData = () => {
 };
 
 export default ViewCourseData;
-

@@ -7,10 +7,7 @@ const CourseModulesPage = () => {
   const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-// const[correctedans,setCorrected]=useState();
-// const[incorrected,setInCorrected]=useState();
-// const[score,setScore]=useState();
+  const [courseProgress,setcourseProgress] = useState(0);
 
   const navigate = useNavigate();
 
@@ -20,8 +17,9 @@ const CourseModulesPage = () => {
   const data = JSON.parse(localStorage.getItem("user"));
   const userId = data ? data.user.id : null;
 
+
   const handleBackButtonClick = () => {
-    navigate(`/ViewCourse?id=${courseId}`); // Pass courseId back as query param
+    navigate(`/ViewCourse?id=${courseId}`);
   };
 
   useEffect(() => {
@@ -40,12 +38,9 @@ const CourseModulesPage = () => {
           throw new Error("Failed to fetch course progress");
         }
         const data = await response.json();
-        console.log(data.modules)
-        
-        // setCorrected(data.modules)
-        // console.log(data.modules[0].progress.completion_status
-        // )
-        setModules(data.modules); // Modules with progress data
+        console.log(data.Course_progress)
+        setcourseProgress(data.Course_progress);
+        setModules(data.modules || []); // Default to an empty array if no modules
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -56,12 +51,8 @@ const CourseModulesPage = () => {
     fetchModules();
   }, [userId, courseId]);
 
-  const renderProgressBar = (completion_status,score) => {
-    let progressWidth = "0%";
-    // console.log(score)
-    if (completion_status === "In Progress") progressWidth = "50%";
-    else if (completion_status === "Passed") progressWidth = "100%";
-    // else progressWidth = `${score*4}%`;
+  const renderProgressBar = (completion_percentage) => {
+    const progressWidth = `${(completion_percentage=="Passed")?100:0 || 0}%`;
     return (
       <div className="progress-bar-container">
         <div className="progress-bar" style={{ width: progressWidth }}></div>
@@ -69,9 +60,16 @@ const CourseModulesPage = () => {
     );
   };
 
-  const handleModuleClick = (moduleId,corrected,incorrected,score,completion_status,skipped) => {
+  const handleModuleClick = (
+    moduleId,
+    corrected,
+    incorrected,
+    score,
+    completion_status,
+    skipped
+  ) => {
     navigate(`/DetailedModulePage?moduleId=${moduleId}`, {
-      state: { userId, courseId,corrected ,incorrected,score,completion_status,skipped}
+      state: { userId, courseId, corrected, incorrected, score, completion_status, skipped },
     });
   };
 
@@ -84,9 +82,11 @@ const CourseModulesPage = () => {
   }
 
   const overallProgress = modules.length
-    ? (modules.filter((module) => module.progress?.completion_status === "Passed").length / 
-        modules.length) * 
-      100
+    ? (modules.reduce(
+        (acc, module) => acc + (module.progress?.completion_percentage || 0),
+        0
+      ) /
+        modules.length).toFixed(2)
     : 0;
 
   return (
@@ -102,11 +102,29 @@ const CourseModulesPage = () => {
         <div className="progress-bar-container">
           <div
             className="progress-bar"
-            style={{ width: `${overallProgress}%` }}
+            style={{ width: `${courseProgress.completion_percentage}%` }}
           ></div>
         </div>
-        <p>{overallProgress.toFixed(0)}% Completed</p>
+        <b>
+        <p>{courseProgress.completion_percentage}% Completed  </p>
+        </b>
+        <b>
+        <p>Quiz Percentage: {courseProgress.quiz_percentage} %</p>
+        </b>
+        <b>
+        <p>Total Marks Obtaint: {courseProgress.total_score}</p>
+        </b>
+        <b>
+        <p>Total Marks:{courseProgress.total_marks}</p>
+        </b>
+       
       </div>
+
+      {/* <div>
+          {courseProgress.quiz_percentage}
+          {courseProgress.total_marks}
+          {courseProgress.total_score}
+      </div> */}
 
       <div className="modules-container">
         {modules.length === 0 ? (
@@ -116,7 +134,16 @@ const CourseModulesPage = () => {
             <div
               key={module.module_id}
               className="module-card"
-              onClick={() => handleModuleClick(module.module_id,module.progress?.corrected||0,module.progress?.incorrected||0,module.progress?.score||0,module.progress?.completion_status||"Failed",module.progress?.skipped)}
+              onClick={() =>
+                handleModuleClick(
+                  module.module_id,
+                  module.progress?.corrected || 0,
+                  module.progress?.incorrected || 0,
+                  module.progress?.score || 0,
+                  module.status || "Not Started",
+                  module.progress?.skipped
+                )
+              }
             >
               <div className="module-card-content">
                 <img
@@ -128,11 +155,10 @@ const CourseModulesPage = () => {
                   <h3 className="module-title">{module.title}</h3>
                   <p className="module-description">{module.description}</p>
                   <div className="module-progress">
-                    <span>Progress: {module.progress?.completion_status || 'Not Started'}</span>
-                    
-                    {/* {renderProgressBar( module.progress?.completion_status || 'Not Started')} */}
-                    {renderProgressBar( module.progress?.completion_status || 'Not Started', module.progress?.score)}
-
+                    <span>
+                      Progress: {module.status || "Not Started"}
+                    </span>
+                    {renderProgressBar(module.status|| 0)}
                   </div>
                 </div>
               </div>
@@ -140,12 +166,13 @@ const CourseModulesPage = () => {
           ))
         )}
       </div>
+
+        
+
     </div>
   );
 };
 
 export default CourseModulesPage;
-
-
 
 

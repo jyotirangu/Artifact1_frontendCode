@@ -57,13 +57,3 @@ def send_email(sender_email, sender_password, recipient_email, subject, body, sm
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Example usage:
-# if __name__ == "__main__":
-#     send_email(
-#         sender_email="vedantpatel07756@gmail.com",
-#         sender_password="iouc yqlg oawx uqzz",
-#         recipient_email="jyotirangu657@gmail.com",
-#         subject="Test Email",
-#         body="Hello jyoti tu pagal he :-)",
-#         attachment_path=None  # Provide a valid path to test attachments
-#     )

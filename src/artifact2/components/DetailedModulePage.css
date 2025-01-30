@@ -1,9 +1,3 @@
-/* Disable scrolling on the body */
-/* body {
-  overflow: hidden; 
-  margin: 0;
-} */
-
 
 /* General Container */
 .module-page-containerDMP {
@@ -193,8 +187,52 @@ input[type="radio"] {
   margin-bottom: 30px;
 }
 
+.result-box {
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  width: 80%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-/* //===================================================================================================LOOKING FOR SUBMIT MESSAGE IN BELOW 
+.result-box h2 {
+  color: #4caf50;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.result-box p {
+  font-size: 1.1rem;
+  margin: 8px 0;
+}
+
+.result-box strong {
+  color: #333;
+}
+
+.go-to-course-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.go-to-course-btn:hover {
+  background-color: #0056b3;
+}
+
 
 
 
